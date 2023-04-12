@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAAS Museum Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        h2 {
+            font-size: 16px;
+        }
+        h3 {
+            font-size: 14px;
+        }
+        p {
+            font-size: 14px;
+        }
+        .summary {
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+        .line {
+            border-bottom: 1px solid #000;
+            margin-bottom: 20px;
+        }
+        .title {
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        form {
+            margin-bottom: 30px;
+        }
+        .item img {
+            background-color: #333;
+            display: block;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">POWERHOUSE COLLECTION</h1>
+        <form action="/search" method="get">
+            <label for="searchTerm">Search:</label>
+            <input type="text" name="searchTerm" id="searchTerm">
+            <input type="submit" value="Search">
+        </form>
+
+        {% for object in objects %}
+            <div class="item">
+                {% if object.images %}
+                    <img src="{{ object.images[0]['url'] }}" width="400">
+                {% endif %}
+                <h1>{{ object.displayTitle }}</h1>
+                <p>{{ object.summary[:150] }}{% if object.summary|length > 150 %}... <a href="#" onclick="expandSummary(this)">Read more</a>{% endif %}</p>
+                <div class="summary">
+                    <h2>Summary</h2>
+                    <p><strong>{{ object.statement }}</strong></p>
+                </div>
+                <hr class="line">
+                <h3>Physical Description</h3>
+                <p>{{ object.description }}</p>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
